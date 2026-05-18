@@ -1,0 +1,41 @@
+#!/bin/bash
+set -e
+
+# Instana Agent Installation Script for EC2
+# This script installs and configures the Instana agent on EC2 instances using the official setup script
+
+echo "Starting Instana agent installation..."
+
+# Update system packages
+yum update -y || apt-get update -y
+
+# Install required dependencies
+if command -v yum &> /dev/null; then
+    # Amazon Linux / RHEL / CentOS
+    yum install -y curl
+elif command -v apt-get &> /dev/null; then
+    # Ubuntu / Debian
+    apt-get install -y curl
+fi
+
+# Download the official Instana agent setup script
+echo "Downloading Instana agent setup script..."
+curl -o setup_agent.sh https://setup.instana.io/agent
+
+# Make the setup script executable
+chmod 700 ./setup_agent.sh
+
+# Install Instana agent with the following parameters:
+# -y: Non-interactive mode (auto-accept)
+# -a: Agent key for authentication
+# -m: Monitoring mode (aws for AWS environments)
+# -t: Agent mode (dynamic for automatic configuration)
+# -e: Backend endpoint with port
+# -s: Enable service mode (start agent as a service)
+echo "Installing Instana agent..."
+sudo -E ./setup_agent.sh -y -a ${instana_agent_key} -m aws -t dynamic -e ${instana_endpoint}:${instana_endpoint_port} -s
+
+# Clean up setup script
+rm -f setup_agent.sh
+
+echo "Instana agent installation completed successfully!"
