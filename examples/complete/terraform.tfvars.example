@@ -1,0 +1,88 @@
+# ==============================================================================
+# Complete Example - Terraform Variables
+# ==============================================================================
+#
+# Copy this file to terraform.tfvars and update with your actual values.
+#
+# Usage:
+#   cp terraform.tfvars.example terraform.tfvars
+#   # Edit terraform.tfvars with your values
+#   terraform init
+#   terraform apply
+#
+# ==============================================================================
+
+# AWS Configuration
+region = "us-east-2"
+
+# Network Configuration (Required)
+vpc_id    = "vpc-xxxxxxxxx"
+subnet_id = "subnet-xxxxxxxxx"
+
+# Security Group Configuration
+create_security_group = true
+
+# Optional: Use existing security group instead
+# create_security_group = false
+# security_group_id     = "sg-xxxxxxxxx"
+
+# SSH Access Control
+allowed_ssh_cidr_blocks = [
+  "0.0.0.0/0",
+  # "172.16.0.0/12"
+]
+
+# EC2 Instance Configuration
+instance_type              = "m5.large"
+root_volume_size           = 8
+enable_detailed_monitoring = true
+
+# Optional: Specify custom AMI
+# ami_id = "ami-xxxxxxxxx"
+
+# Optional: EC2 key pair for SSH access
+key_name = "my-key-pair"
+
+# Instana Configuration (Required)
+instana_agent_key     = "your-instana-agent-key-here"
+instana_endpoint      = "ingress-blue-saas.instana.io"
+instana_endpoint_port = 443
+
+# General Configuration
+name_prefix = "instana-agent"
+
+# Common Tags
+tags = {
+  Project     = "Infrastructure Monitoring"
+  ManagedBy   = "Terraform"
+  Owner       = "DevOps Team"
+  Environment = "Production"
+  CostCenter  = "Engineering"
+}
+
+# Resource-specific Tags (Optional)
+# These tags are merged with common tags for each resource type
+security_group_tags = {
+  Purpose = "Instana Agent Security"
+  Type    = "Monitoring"
+}
+
+instance_tags = {
+  Application = "Instana Agent"
+  ManagedBy   = "Terraform"
+  Backup      = "Daily"
+}
+
+volume_tags = {
+  Encrypted = "true"
+  Type      = "Root"
+}
+
+iam_role_tags = {
+  Purpose = "Instana Monitoring"
+  Type    = "Service Role"
+}
+
+iam_instance_profile_tags = {
+  Purpose = "Instana EC2 Profile"
+}
