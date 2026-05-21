@@ -12,13 +12,23 @@ A Terraform module for deploying Instana monitoring agents on AWS EC2 instances 
 
 ## Prerequisites
 
-Before running this module, ensure the user or IAM role executing Terraform has sufficient AWS permissions to create and manage:
-- EC2 instances
-- IAM roles
-- IAM policies
-- IAM instance profiles
-- Security groups
-- EBS volumes
+### Instana Account
+- Active Instana account with access to:
+  - Agent key (for authentication)
+  - Backend endpoint URL
+
+### AWS Permissions
+
+The IAM user or role executing Terraform must have permissions to create and manage:
+- EC2 instances and EBS volumes
+- IAM roles, policies, and instance profiles
+- Security groups (if creating new ones)
+- VPC resources (read access for existing VPC/subnets)
+
+### Network Requirements
+- VPC with appropriate subnet (public or private with NAT Gateway/Internet Gateway)
+- Network connectivity to Instana backend endpoint (typically port 443)
+- (Optional) SSH access configuration if remote management is required
 
 ## Usage
 
