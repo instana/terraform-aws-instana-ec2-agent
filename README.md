@@ -77,6 +77,32 @@ This module requires the following variables to be provided explicitly:
 | iam_role_tags | Additional tags for IAM role | `map(string)` | `{}` |
 | iam_policy_tags | Additional tags for IAM policy | `map(string)` | `{}` |
 | iam_instance_profile_tags | Additional tags for IAM instance profile | `map(string)` | `{}` |
+| custom_config_yaml | Raw YAML appended to the agent's `configuration.yaml` after installation. Set to `null` to skip. | `string` | `null` |
+
+### Custom Agent Configuration
+
+Use `custom_config_yaml` to inject additional settings into the Instana agent's `configuration.yaml` at boot time. The value is appended verbatim after the agent is installed, so it must be valid YAML.
+
+A sample configuration file is provided at [`examples/configuration.yaml.example`](examples/configuration.yaml.example). Copy it to your module directory and customise it as needed:
+
+```bash
+cp examples/configuration.yaml.example <your-module-dir>/configuration.yaml
+```
+
+Then reference it in your module call:
+
+```hcl
+module "instana_agent" {
+  source  = "instana/instana-ec2-agent/aws"
+  version = "~> 1.0"
+
+  # ... required variables ...
+
+  custom_config_yaml = file("${path.module}/configuration.yaml")
+}
+```
+
+Leave `custom_config_yaml` unset (or explicitly `null`) if no additional configuration is needed.
 
 ## Outputs
 

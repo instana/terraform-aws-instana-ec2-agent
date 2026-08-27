@@ -1,0 +1,24 @@
+# ==============================================================================
+# Example Custom Configuration for Instana Agent
+# ==============================================================================
+# This file is appended to /opt/instana/agent/etc/instana/configuration.yaml
+# on the EC2 instance at boot time.
+#
+# Usage:
+# 1. Copy this file to your Terraform module directory:
+#      cp examples/configuration.yaml.example <your-module-dir>/configuration.yaml
+# 2. Reference it in your Terraform module call:
+#      custom_config_yaml = file("${path.module}/configuration.yaml")
+#
+# ==============================================================================
+
+com.instana.plugin.aws:
+  poll_rate: 60           # Seconds between AWS API polls (recommended: 60)
+  exclude_tags: ''        # Optional: e.g. 'environment:development,temporary:true'
+  include_tags: ''        # Optional: e.g. 'environment:production,team:platform'
+
+# ==============================================================================
+# Additional Sensors and Plugins (Optional)
+# ==============================================================================
+# Add configuration for any Instana sensor or plugin below.
+

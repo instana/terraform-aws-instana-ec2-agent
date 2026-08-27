@@ -45,3 +45,21 @@
 # - https://developer.hashicorp.com/terraform/language/modules/develop
 #
 # ==============================================================================
+
+# ==============================================================================
+# Instana Agent Script Module
+# ==============================================================================
+# Renders the cloud-agnostic bootstrap script via the instana-agent-script
+# module. The rendered script is passed to the EC2 user_data in ec2.tf.
+# instana_endpoint_host falls back to instana_endpoint so callers only need
+# to set one of the two variables.
+# ==============================================================================
+module "instana_agent_script" {
+  source  = "instana/instana-agent-script/instana"
+  version = ">= 1.0.0"
+
+  instana_agent_key     = var.instana_agent_key
+  instana_endpoint_host = var.instana_endpoint_host != "" ? var.instana_endpoint_host : var.instana_endpoint
+  instana_endpoint_port = var.instana_endpoint_port
+  custom_config_yaml    = var.custom_config_yaml
+}
