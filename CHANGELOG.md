@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.2](https://github.com/instana/terraform-aws-instana-ec2-agent/tree/v1.0.2)
+
+### Changes
+- Replaced inline user data script with the `instana-agent-script` child module
+- Added `custom_config_yaml` variable to append custom settings to the agent's `configuration.yaml`
+- Added `instana_endpoint_host` variable as an alias for `instana_endpoint`
+- Added `examples/configuration.yaml.example` as a starter custom configuration file
+
 ## [v1.0.1](https://github.com/instana/terraform-aws-instana-ec2-agent/tree/v1.0.1)
 
 ### Documentation
