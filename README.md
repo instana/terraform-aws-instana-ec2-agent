@@ -83,6 +83,14 @@ This module requires the following variables to be provided explicitly:
 
 Use `custom_config_yaml` to inject additional settings into the Instana agent's `configuration.yaml` at boot time. The value is appended verbatim after the agent is installed, so it must be valid YAML.
 
+A sample configuration file is provided at [`examples/configuration.yaml.example`](examples/configuration.yaml.example). Copy it to your module directory and customise it as needed:
+
+```bash
+cp examples/configuration.yaml.example <your-module-dir>/configuration.yaml
+```
+
+Then reference it in your module call:
+
 ```hcl
 module "instana_agent" {
   source  = "instana/instana-ec2-agent/aws"
@@ -90,7 +98,7 @@ module "instana_agent" {
 
   # ... required variables ...
 
-  custom_config_yaml = file("${path.module}/instana-config.yaml")
+  custom_config_yaml = file("${path.module}/configuration.yaml")
 }
 ```
 
