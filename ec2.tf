@@ -87,11 +87,7 @@ resource "aws_instance" "instana_agent" {
     )
   }
 
-  user_data = templatefile("${path.module}/templates/user_data.sh.tftpl", {
-    instana_agent_key     = var.instana_agent_key
-    instana_endpoint      = var.instana_endpoint
-    instana_endpoint_port = var.instana_endpoint_port
-  })
+  user_data = module.instana_agent_script.linux_agent_bootstrap
 
   tags = merge(
     var.tags,

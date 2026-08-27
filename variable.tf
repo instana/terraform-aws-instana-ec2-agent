@@ -98,6 +98,14 @@ variable "instana_endpoint" {
   type        = string
 }
 
+# Alias for instana_endpoint, required by the terraform-instana-agent-script module.
+# If not set, instana_endpoint is used as the fallback (see main.tf).
+variable "instana_endpoint_host" {
+  description = "Instana backend endpoint host — passed to the instana-agent-script module (e.g. ingress-pink-saas.instana.rocks)"
+  type        = string
+  default     = ""
+}
+
 variable "instana_endpoint_port" {
   description = "Instana backend endpoint port"
   type        = number
@@ -168,4 +176,19 @@ variable "iam_instance_profile_tags" {
   description = "Additional tags to apply to the IAM instance profile"
   type        = map(string)
   default     = {}
+}
+
+# ------------------------------------------------------------------------------
+# Instana Agent Custom Configuration
+# ------------------------------------------------------------------------------
+variable "custom_config_yaml" {
+  description = <<-EOT
+    Raw YAML string to append to the Instana agent's configuration.yaml after installation.
+    Leave null to skip custom configuration.
+
+    Example:
+      custom_config_yaml = file("$${path.module}/instana-config.yaml")
+  EOT
+  type        = string
+  default     = null
 }
