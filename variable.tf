@@ -94,14 +94,16 @@ variable "instana_agent_key" {
 }
 
 variable "instana_endpoint" {
-  description = "Instana backend endpoint URL (e.g., ingress-pink-saas.instana.rocks, ingress-blue-saas.instana.io)"
+  description = "Instana backend endpoint host (e.g., ingress-pink-saas.instana.rocks). Used when instana_endpoint_host is not set."
   type        = string
+  default     = ""
 }
 
-# Alias for instana_endpoint, required by the terraform-instana-agent-script module.
-# If not set, instana_endpoint is used as the fallback (see main.tf).
+# Optional override. When set, takes precedence over instana_endpoint and is
+# passed directly to the instana-agent-script module. Leave empty (default) to
+# fall back to instana_endpoint.
 variable "instana_endpoint_host" {
-  description = "Instana backend endpoint host — passed to the instana-agent-script module (e.g. ingress-pink-saas.instana.rocks)"
+  description = "Override for the Instana backend endpoint host passed to the instana-agent-script module. When empty (default), instana_endpoint is used instead."
   type        = string
   default     = ""
 }
@@ -176,6 +178,28 @@ variable "iam_instance_profile_tags" {
   description = "Additional tags to apply to the IAM instance profile"
   type        = map(string)
   default     = {}
+}
+
+variable "extra_setup_flags" {
+  description = <<-EOT
+    Map of additional flags passed verbatim to the Instana setup script
+    (https://setup.instana.io/agent).
+
+    Key   = short flag letter (no leading dash).
+    Value = argument string; use an empty string "" for standalone boolean flags.
+
+    Common flags include:
+      "m" = "<mode>"  — agent mode (e.g. "aws", "apm", "infra", "off").
+                        Use "aws" to activate AWS infrastructure monitoring so
+                        EC2, RDS, ELB, S3, etc. are discovered automatically.
+
+    Defaults to AWS mode for this EC2 module. Set to {} to omit all extra flags.
+
+    Example:
+      extra_setup_flags = { "m" = "aws" }
+  EOT
+  type        = map(string)
+  default     = { "m" = "aws" }
 }
 
 # ------------------------------------------------------------------------------

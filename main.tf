@@ -54,6 +54,17 @@
 # instana_endpoint_host falls back to instana_endpoint so callers only need
 # to set one of the two variables.
 # ==============================================================================
+# Guard: ensures the resolved host value passed to instana-agent-script is never
+# empty. 
+resource "terraform_data" "validate_instana_endpoint" {
+  lifecycle {
+    precondition {
+      condition     = var.instana_endpoint_host != "" || var.instana_endpoint != ""
+      error_message = "At least one of 'instana_endpoint_host' or 'instana_endpoint' must be set; both are currently empty, which would produce an Instana agent with no backend host."
+    }
+  }
+}
+
 module "instana_agent_script" {
   source  = "instana/instana-agent-script/instana"
   version = ">= 1.0.0"
