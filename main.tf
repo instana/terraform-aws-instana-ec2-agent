@@ -72,5 +72,6 @@ module "instana_agent_script" {
   instana_agent_key     = var.instana_agent_key
   instana_endpoint_host = var.instana_endpoint_host != "" ? var.instana_endpoint_host : var.instana_endpoint
   instana_endpoint_port = var.instana_endpoint_port
+  extra_setup_flags     = var.extra_setup_flags
   custom_config_yaml    = var.custom_config_yaml
 }
