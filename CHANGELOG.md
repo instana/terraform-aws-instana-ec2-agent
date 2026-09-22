@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.3](https://github.com/instana/terraform-aws-instana-ec2-agent/tree/v1.0.3)
+
+### Changes
+- Added `extra_setup_flags` variable (map of string) to pass arbitrary flags to the Instana setup script; defaults to `{ "m" = "aws" }` for AWS infrastructure monitoring mode
+- Forwarded `extra_setup_flags` to the `instana-agent-script` child module
+- Added endpoint validation guard (`terraform_data.validate_instana_endpoint`) that raises a clear `precondition` error when both `instana_endpoint_host` and `instana_endpoint` are empty
+- Made `instana_endpoint` optional (default `""`) so callers only need to set one of the two endpoint variables
+
 ## [v1.0.2](https://github.com/instana/terraform-aws-instana-ec2-agent/tree/v1.0.2)
 
 ### Changes
